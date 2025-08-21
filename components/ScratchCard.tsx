@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState } from 'react';
 
 type Props = {
-  cover?: string;           // imagem da camada a raspar (opcional)
-  coverColor?: string;      // cor fallback (se não usar imagem)
-  brushSize?: number;       // tamanho do “dedo”
-  threshold?: number;       // 0–1: % revelado p/ auto sumir
-  onReveal?: () => void;    // callback quando atingir threshold
-  className?: string;       // classes extras no wrapper
-  children?: React.ReactNode; // conteúdo do prêmio
+  cover?: string;
+  coverColor?: string;
+  brushSize?: number;
+  threshold?: number;
+  onReveal?: () => void;
+  className?: string;
+  children?: React.ReactNode;
 };
 
 export default function ScratchCard({
@@ -24,15 +24,14 @@ export default function ScratchCard({
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [revealed, setRevealed] = useState(false);
-  const [size, setSize] = useState({ w: 600, h: 330 }); // será reajustado
+  const [size, setSize] = useState({ w: 600, h: 330 });
 
-  // Responsivo: acompanha a largura do container
   useEffect(() => {
     const resize = () => {
       const el = containerRef.current;
       if (!el) return;
       const w = el.clientWidth;
-      const ratio = 330 / 600; // base 600x330
+      const ratio = 330 / 600;
       setSize({ w, h: Math.round(w * ratio) });
     };
     resize();
@@ -41,7 +40,6 @@ export default function ScratchCard({
     return () => ro.disconnect();
   }, []);
 
-  // Desenha a camada a raspar
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -65,7 +63,6 @@ export default function ScratchCard({
     }
   }, [cover, coverColor, size]);
 
-  // Raspar com Pointer Events (mouse + toque)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || revealed) return;
@@ -106,21 +103,20 @@ export default function ScratchCard({
 
     let lastCheck = 0;
     const maybeReveal = () => {
-      // throttling simples pra não pesar
       const now = performance.now();
       if (now - lastCheck < 200) return;
       lastCheck = now;
 
       const { width, height } = canvas;
-      const sampleStep = 4; // amostragem: a cada 4px
+      const step = 4;
       const imageData = ctx.getImageData(0, 0, width, height);
       const data = imageData.data;
 
       let transparent = 0;
       let total = 0;
-      for (let y = 0; y < height; y += sampleStep) {
-        for (let x = 0; x < width; x += sampleStep) {
-          const i = (y * width + x) * 4 + 3; // canal alpha
+      for (let y = 0; y < height; y += step) {
+        for (let x = 0; x < width; x += step) {
+          const i = (y * width + x) * 4 + 3;
           total++;
           if (data[i] === 0) transparent++;
         }
@@ -148,11 +144,7 @@ export default function ScratchCard({
 
   return (
     <div ref={containerRef} className={className ?? ''}>
-      <div
-        className="relative overflow-hidden rounded-2xl border border-border shadow-sm"
-        style={{ width: '100%', height: size.h }}
-      >
-        {/* Conteúdo do prêmio (sempre por baixo) */}
+      <div className="relative overflow-hidden rounded-2xl border border-border shadow-sm" style={{ width: '100%', height: size.h }}>
         <div className="absolute inset-0 flex items-center justify-center p-4 bg-gradient-to-br from-white to-emerald-50">
           <div className="text-center space-y-1">
             {children ?? (
@@ -164,8 +156,6 @@ export default function ScratchCard({
             )}
           </div>
         </div>
-
-        {/* Camada para raspar */}
         <canvas ref={canvasRef} className="absolute inset-0 touch-none" aria-label="Raspadinha" />
       </div>
     </div>
