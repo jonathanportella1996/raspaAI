@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* mídia responsiva */
 img, video, canvas, svg { max-width: 100%; height: auto; }
 
@@ -9,3 +13,24 @@ h1, h2, h3 { line-height: 1.15; }
 
 /* melhora o scroll em iOS com notch */
 .safe-pads { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+
+/* ===== tokens rápidos p/ classes que você já usa (bg-background, text-muted-foreground, etc.) ===== */
+:root{
+  --background: 255 255 255;        /* branco */
+  --foreground: 15 23 42;           /* slate-900 */
+  --muted: 248 250 252;             /* slate-50 */
+  --muted-foreground: 100 116 139;  /* slate-500 */
+  --border: 226 232 240;            /* slate-200 */
+  --accent: 241 245 249;            /* slate-100 */
+}
+
+/* mapeia para utilitários usados no projeto */
+@layer utilities {
+  .bg-background { background-color: rgb(var(--background)); }
+  .text-foreground { color: rgb(var(--foreground)); }
+  .bg-muted { background-color: rgb(var(--muted)); }
+  .text-muted-foreground { color: rgb(var(--muted-foreground)); }
+  .border-border { border-color: rgb(var(--border)); }
+  .bg-accent { background-color: rgb(var(--accent)); }
+  .text-balance { text-wrap: balance; } /* opcional */
+}
