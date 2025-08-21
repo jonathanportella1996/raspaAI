@@ -16,11 +16,7 @@ export default function AdminLoginPage() {
     console.log('[login] bodyLen:', toSend.length);
 
     try {
-      const res = await fetch('/api/admin/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: toSend }),
-      });
+      
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setErr(data?.error === 'env_missing' ? 'ADMIN_DASH_PASSWORD ausente no servidor' : 'Senha inválida');
