@@ -1,3 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* mídia responsiva */
+img, video, canvas, svg { max-width: 100%; height: auto; }
+
+/* evita overflow de textos em grids/flex */
+* { min-width: 0; }
+
+/* tipografia confortável e escalável */
+h1, h2, h3 { line-height: 1.15; }
+
+/* melhora o scroll em iOS com notch */
+.safe-pads { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
