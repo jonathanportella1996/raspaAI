@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdmin } from '../../../_adminCheck';
+import { requireAdmin } from '../../../../../_app_disabled/api/_adminCheck';
 
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SR  = process.env.SUPABASE_SERVICE_ROLE!;
