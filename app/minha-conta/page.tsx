@@ -1,1 +1,1 @@
-export default function MinhaConta(){return <div>Minha Conta - em construção</div>}
+export default function MinhaConta(){return <div>Minha Conta - em construo</div>}

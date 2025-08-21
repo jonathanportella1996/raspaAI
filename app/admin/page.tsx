@@ -1,1 +1,1 @@
-export default function AdminHome(){return <div>Admin - em construção</div>}
+export default function AdminHome(){return <div>Admin - em construo</div>}
