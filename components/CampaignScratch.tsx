@@ -20,6 +20,7 @@ export default function CampaignScratch({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slug }),
       });
+      // aqui você pode disparar confete/toast, etc.
     } catch {}
   };
 
