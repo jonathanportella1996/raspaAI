@@ -1,7 +1,7 @@
 
 "use client";
 import { useRef, useState } from "react";
-import ScratchCard from "@/components/ScratchCard";
+import ScratchCard from "../../../components/ScratchCard";
 
 export default function CampaignPlayPage({ params }: { params: { campaignId: string } }) {
   const cardRef = useRef<{ reset: () => void } | null>(null);
