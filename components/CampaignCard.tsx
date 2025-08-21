@@ -6,8 +6,16 @@ import Image from 'next/image';
 type Availability = 'ALTA' | 'MEDIA' | 'BAIXA';
 
 export default function CampaignCard({
-  id, title, availability, cover,
-}: { id: string; title: string; availability: Availability; cover?: string }) {
+  slug,
+  title,
+  availability,
+  cover,
+}: {
+  slug: string;
+  title: string;
+  availability: Availability;
+  cover?: string;
+}) {
   const color =
     availability === 'ALTA' ? 'bg-emerald-100 text-emerald-700' :
     availability === 'MEDIA' ? 'bg-amber-100 text-amber-700' :
@@ -20,7 +28,7 @@ export default function CampaignCard({
 
   return (
     <Link
-      href={`/campaigns/${id}`}
+      href={`/campaigns/${slug}`}
       className="group rounded-2xl overflow-hidden border border-border hover:shadow-lg hover:-translate-y-0.5 transition flex flex-col"
       aria-label={`Abrir campanha ${title}`}
     >
@@ -32,7 +40,6 @@ export default function CampaignCard({
             fill
             className="object-cover"
             sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
-            priority={id === 'demo'}
           />
         )}
       </div>
