@@ -1,6 +1,6 @@
 
 import Link from "next/link";
-import CampaignCard from "@/components/CampaignCard";
+import CampaignCard from "../components/CampaignCard";
 
 const mockCampaigns = [
   { id: "demo-1", title: "iPhone 15 Pro", cover_url: "", price_cents: 2500, sold_count: 12, goal_count: 100 },
