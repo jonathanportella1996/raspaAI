@@ -1,28 +1,37 @@
 'use client';
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
   const r = useRouter();
-  const [password, setPassword] = useState('');
+  const [pwd, setPwd] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true); setErr(null);
-    const res = await fetch('/api/admin/session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
-    });
-    setLoading(false);
-    if (!res.ok) {
-      setErr('Senha inválida');
-      return;
+
+    const toSend = pwd.trim();                 // ✅ remove espaços
+    console.log('[login] bodyLen:', toSend.length);
+
+    try {
+      const res = await fetch('/api/admin/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: toSend }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setErr(data?.error === 'env_missing' ? 'ADMIN_DASH_PASSWORD ausente no servidor' : 'Senha inválida');
+        return;
+      }
+      r.push('/admin/reveals');
+    } catch {
+      setErr('Erro inesperado');
+    } finally {
+      setLoading(false);
     }
-    r.push('/admin/reveals');
   };
 
   return (
@@ -33,8 +42,8 @@ export default function AdminLoginPage() {
           className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm"
           placeholder="Senha do painel"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={pwd}
+          onChange={(e) => setPwd(e.target.value)}
           required
         />
         {err && <div className="text-sm text-rose-600">{err}</div>}
