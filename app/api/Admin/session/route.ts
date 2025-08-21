@@ -4,10 +4,9 @@ import { NextResponse } from 'next/server';
 
 const ADMIN_DASH_PASSWORD = process.env.ADMIN_DASH_PASSWORD;
 
-// GET só para debug no deploy (depois pode apagar)
+// GET só para debug: confirme no deploy que a rota existe e a env está presente
 export async function GET() {
-  const has = !!ADMIN_DASH_PASSWORD;
-  return NextResponse.json({ ok: true, hasAdminPwd: has }, { status: 200 });
+  return NextResponse.json({ ok: true, hasAdminPwd: !!ADMIN_DASH_PASSWORD }, { status: 200 });
 }
 
 export async function POST(req: Request) {
