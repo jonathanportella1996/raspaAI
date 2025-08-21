@@ -1,3 +1,4 @@
+// app/api/_adminCheck.ts
 import { cookies } from 'next/headers';
 
 export function requireAdmin() {
