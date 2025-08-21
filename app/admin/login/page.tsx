@@ -16,7 +16,7 @@ export default function AdminLoginPage() {
     console.log('[login] bodyLen:', toSend.length);
 
     try {
-      const res = await fetch('/api/admin-session', {
+      const res = await fetch('/api/ping', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: pwd.trim() }),
