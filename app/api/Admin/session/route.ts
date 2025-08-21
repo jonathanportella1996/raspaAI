@@ -5,25 +5,23 @@ const ADMIN_DASH_PASSWORD = process.env.ADMIN_DASH_PASSWORD;
 
 export async function POST(req: Request) {
   const { password } = await req.json().catch(() => ({}));
-
   if (!ADMIN_DASH_PASSWORD) {
     return NextResponse.json({ ok:false, error:'env_missing' }, { status:500 });
   }
-
-  const bodyPwd = String(password ?? '');
-  const envPwd  = String(ADMIN_DASH_PASSWORD);
-
-  if (bodyPwd.trim() !== envPwd.trim()) {
+  if (!password || String(password).trim() !== String(ADMIN_DASH_PASSWORD).trim()) {
     return NextResponse.json({ ok:false, error:'invalid_password' }, { status:401 });
   }
-
-  cookies().set('raspa_admin','1', {
+  cookies().set('raspa_admin','1',{
     httpOnly:true, sameSite:'lax',
     secure: process.env.NODE_ENV === 'production',
     path:'/', maxAge:60*60*8
   });
-
   return NextResponse.json({ ok:true });
+}
+
+// opcional, só pra GET não gerar confusão
+export async function GET() {
+  return NextResponse.json({ ok:false, error:'method_not_allowed' }, { status:405 });
 }
 
 export async function DELETE() {
